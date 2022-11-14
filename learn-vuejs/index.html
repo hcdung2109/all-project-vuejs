@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <template v-if="flag">
+            <p>Ví dụ về template</p>
+            <p>Ví dụ về template 2</p>
+        </template>
+        <p>{{ flag }}</p>
+        <button @click="changeFlag()">Click</button>
+
+        <ul v-show="flag">
+            <li v-for="(menu, i) in menus">{{ i }} {{ menu }}</li>
+        </ul>
+
+        <template v-show="flag" v-for="(menu, i) in menus">
+              <p>index : {{ i }}</p>  
+              <p>value : {{ menu }}</p>  
+        </template>
+
+        <template v-show="flag" v-for="(student, i) in students">
+            <p>Tên : {{ student.name }}</p>  
+            <p>Tuổi : {{ student.age }}</p >  
+      </template>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                flag : true,
+                menus : [1,2,3,4,5],
+                students : [
+                    {name : "Dung", age: 31},
+                    {name : "Thuy", age: 30}
+                ]
+            },
+            methods: {
+                changeFlag: function () {
+                    console.log("change flag");
+                    if (this.flag) {
+                        return this.flag = false;
+                    } else {
+                        return this.flag = true;
+                    }
+                },
+                changeName: function () {
+                    console.log("test");
+                }
+            },
+        });
+    </script>
+</body>
+</html>

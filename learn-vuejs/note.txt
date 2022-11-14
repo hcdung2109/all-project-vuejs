@@ -1,0 +1,2 @@
+** v-show : chỉ áp dụng để cho các phần tử HTML , không sử dụng cho template của vue , dùng để ẩn hiển , một số thành phần tag html
+** v-for : duyệt mảng
