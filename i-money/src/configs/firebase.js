@@ -1,5 +1,6 @@
-//import firebase from "firebase";
-import { initializeApp } from "firebase/app";
+import firebase from "firebase";
+import "firebase/auth";
+import "firebase/firestore";
 //import { auth } from "firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
 
@@ -14,10 +15,11 @@ const firebaseConfig = {
   measurementId: "G-V5CR5PEZF0",
 };
 
-const app = initializeApp(firebaseConfig);
-const projectAuth = app.auth();
-const projectFirestore = app.firestore();
-const timestamp = app.firestore.FieldValue.serverTimestamp;
+firebase.initializeApp(firebaseConfig);
+
+const projectAuth = firebase.auth();
+const projectFirestore = firebase.firestore();
+const timestamp = firebase.firestore.FieldValue.serverTimestamp;
 // const analytics = getAnalytics(app);
 
 export { projectAuth, projectFirestore, timestamp };
