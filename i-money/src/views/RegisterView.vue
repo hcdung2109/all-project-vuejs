@@ -18,12 +18,7 @@
           >
         </p>
       </div>
-      <form
-        class="mt-8 space-y-6"
-        action="#"
-        method="POST"
-        @submit="submitForm()"
-      >
+      <form class="mt-8 space-y-6" @submit="submitForm()">
         <input type="hidden" name="remember" value="true" />
         <div class="-space-y-px rounded-md shadow-sm">
           <div>
@@ -117,18 +112,22 @@
 <script>
 import Logo from "@/components/Logo.vue";
 import { ref } from "vue";
+import { useSignUp } from "@/composables/useSignUp";
+
 export default {
   components: { Logo },
   setup() {
+    const { msgError, isPending, signUp } = useSignUp();
     const fullname = ref("");
     const email = ref("");
     const password = ref("");
 
-    function submitForm() {
-      alert(1234);
+    async function submitForm() {
+      console.log(email.value, password.value);
+      await signUp(email.value, password.value);
     }
 
-    return { fullname, email, password, submitForm };
+    return { fullname, email, password, msgError, isPending, submitForm };
   },
 };
 </script>
