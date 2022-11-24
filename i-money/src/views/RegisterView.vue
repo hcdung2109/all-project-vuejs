@@ -18,7 +18,7 @@
           >
         </p>
       </div>
-      <form class="mt-8 space-y-6" @submit="submitForm()">
+      <form class="mt-8 space-y-6" @submit.prevent="submitForm">
         <input type="hidden" name="remember" value="true" />
         <div class="-space-y-px rounded-md shadow-sm">
           <div>
@@ -62,30 +62,11 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-            />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900"
-              >Remember me</label
-            >
-          </div>
-
-          <div class="text-sm">
-            <a
-              href="#"
-              class="font-medium text-indigo-600 hover:text-indigo-500"
-              >Forgot your password?</a
-            >
-          </div>
-        </div>
+        <p v-if="msgError" class="text-red"> {{ msgError }} </p>
 
         <div>
           <button
+          v-if="!isPending"
             type="submit"
             class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
@@ -97,6 +78,15 @@
             </span>
             Sign in
           </button>
+
+          <button
+            v-if="isPending"
+            type="submit"
+            class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Loading..
+          </button>
+
           <p>
             Already Registered?
             <router-link :to="{ name: 'login' }" class="text-sky-500"
@@ -112,22 +102,50 @@
 <script>
 import Logo from "@/components/Logo.vue";
 import { ref } from "vue";
-import { useSignUp } from "@/composables/useSignUp";
+import { useRouter } from "vue-router";
+import { createUserWithEmailAndPassword, getAuth, updateProfile  } from "firebase/auth"
 
 export default {
   components: { Logo },
   setup() {
-    const { msgError, isPending, signUp } = useSignUp();
     const fullname = ref("");
     const email = ref("");
     const password = ref("");
+    const msgError = ref("");
+    const isPending = ref(false);
+    const route = useRouter();
 
     async function submitForm() {
-      console.log(email.value, password.value);
-      await signUp(email.value, password.value);
+      isPending.value = true;
+
+      try {
+        const { user } = await createUserWithEmailAndPassword(getAuth(), email.value, password.value);
+
+        if (!user) throw new Error("Not connect firebase");
+
+        await updateProfile(user, { displayName:  fullname.value});
+        console.log(user);
+
+        route.push('/login');
+
+      } catch (error) {
+        console.log(error);
+
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            msgError.value = "Incorrect Password";
+            break;
+          default:
+            msgError.value = error.code;
+            break;
+        }
+
+      } finally {
+        isPending.value = false;
+      }
     }
 
-    return { fullname, email, password, msgError, isPending, submitForm };
+    return { msgError, isPending,fullname, email, password, submitForm };
   },
 };
 </script>
