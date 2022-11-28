@@ -26,6 +26,16 @@ const admin = [
         name: "admin-contacts",
         component: () => import("../pages/admin/contacts/index.vue"),
       },
+      {
+        path: "roles",
+        name: "admin-roles",
+        component: () => import("../pages/admin/roles/index.vue"),
+      },
+      {
+        path: "setting",
+        name: "admin-setting",
+        component: () => import("../pages/admin/setting/index.vue"),
+      },
     ],
   },
 ];
