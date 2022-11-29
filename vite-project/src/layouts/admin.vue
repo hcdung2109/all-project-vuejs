@@ -1,28 +1,30 @@
 <template>
-    <div class="container-fluid">
-        <div class="row">
-            <Header></Header>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <p>sidebar</p>
-            </div>
-            <div class="col-sm-9">
-                <router-view></router-view>
-            </div>
-        </div>
-    </div>
+  <!-- Preloader -->
+  <Loader></Loader>
+  <!-- Navbar -->
+  <Header></Header>
+  <!-- /.navbar -->
+
+  <div class="content-wrapper">
+    <router-view></router-view>
+  </div>
+
+  <Footer></Footer>
 </template>
 
 <script>
-import Header from '../components/Header.vue';
+import Loader from "../components/Loader.vue";
+import Header from "../components/Header.vue";
+import Sidebar from "../components/Sidebar.vue";
+import Footer from "../components/Footer.vue";
 
 export default {
-    components: {
-        Header
-    },
-    setup() {
-        
-    },
-}
+  components: {
+    Loader,
+    Header,
+    Sidebar,
+    Footer,
+  },
+  setup() {},
+};
 </script>

@@ -14,7 +14,12 @@
           {{ " " }}
         </p>
       </div>
-      <form class="mt-8 space-y-6" action="#" method="POST" @submit.prevent="signIn">
+      <form
+        class="mt-8 space-y-6"
+        action="#"
+        method="POST"
+        @submit.prevent="signIn"
+      >
         <input type="hidden" name="remember" value="true" />
         <div class="-space-y-px rounded-md shadow-sm">
           <div>
@@ -45,7 +50,7 @@
           </div>
         </div>
 
-        <p v-if="msgError" class="text-red"> {{ msgError }} </p>
+        <p v-if="msgError" class="text-red">{{ msgError }}</p>
 
         <div class="flex items-center justify-between">
           <div class="flex items-center">
@@ -107,8 +112,8 @@
 <script>
 import Logo from "@/components/Logo.vue";
 import { ref } from "vue";
-//import { useRouter } from "vue-router";
-import { signInWithEmailAndPassword, getAuth } from "firebase/auth"
+import { useRouter } from "vue-router";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
 export default {
   components: { Logo },
@@ -117,34 +122,33 @@ export default {
     const password = ref("");
     const msgError = ref("");
     const isPending = ref(false);
-    //const route = useRouter();
+    const route = useRouter();
 
     function signIn() {
       isPending.value = true;
-      signInWithEmailAndPassword(getAuth(), email.value, password.value )
-      .then((data) => {
-        console.log(data);
+      signInWithEmailAndPassword(getAuth(), email.value, password.value)
+        .then((data) => {
+          console.log(data);
 
-        isPending.value = false;
-        //route.push('/login');
-      })
-      .catch((error) => {
-        console.log(error);
-        isPending.value = false;
+          isPending.value = false;
+          route.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+          isPending.value = false;
 
-        switch (error.code) {
-          case 'auth/wrong-password':
-            msgError.value = "Incorrect Password";
-            break;
-          default:
-            msgError.value = "Incorrect Email or Password";
-            break;
-        }
-      });
+          switch (error.code) {
+            case "auth/wrong-password":
+              msgError.value = "Incorrect Password";
+              break;
+            default:
+              msgError.value = "Incorrect Email or Password";
+              break;
+          }
+        });
     }
 
     return { msgError, isPending, email, password, signIn };
   },
 };
 </script>
-
