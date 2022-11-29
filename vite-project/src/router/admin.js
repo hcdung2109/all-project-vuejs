@@ -1,8 +1,19 @@
 const admin = [
   {
+    path: "",
+    component: () => import("../layouts/BlankLayout.vue"),
+    children: [
+      {
+        path: "/login",
+        name: "admin-login",
+        component: () => import("../pages/admin/login.vue"),
+      },
+    ],
+  },
+  {
     path: "/admin",
     name: "admin",
-    component: () => import("../layouts/admin.vue"),
+    component: () => import("../layouts/AdminLayout.vue"),
     children: [
       {
         path: "users",
@@ -10,16 +21,16 @@ const admin = [
         component: () => import("../pages/admin/users/index.vue"),
         children: [
           {
-          path: "create",
-          name: "admin-users-create",
-          component: () => import("../pages/admin/users/create.vue"), 
+            path: "create",
+            name: "admin-users-create",
+            component: () => import("../pages/admin/users/create.vue"),
           },
           {
             path: "edit",
             name: "admin-users-edit",
-            component: () => import("../pages/admin/users/edit.vue"), 
-            },
-      ]
+            component: () => import("../pages/admin/users/edit.vue"),
+          },
+        ],
       },
       {
         path: "contacts",
