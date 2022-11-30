@@ -6,13 +6,7 @@
     <Sidebar></Sidebar>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
-      <AppBreadcrumb></AppBreadcrumb>
-      <!-- Main content -->
-      <section class="content">
-        <router-view></router-view>
-      </section>
-      <!-- /.content -->
+      <router-view></router-view>
     </div>
     <!-- Footer -->
     <AppFooter></AppFooter>
@@ -28,7 +22,6 @@ import Navbar from "../components/partials/Navbar.vue";
 import Sidebar from "../components/partials/Sidebar.vue";
 import AppFooter from "../components/partials/AppFooter.vue";
 import ControlSidebar from "../components/partials/ControlSidebar.vue";
-import AppBreadcrumb from "../components/partials/AppBreadcrumb.vue";
 
 export default {
   components: {
@@ -36,8 +29,7 @@ export default {
     Navbar,
     Sidebar,
     AppFooter,
-    ControlSidebar,
-    AppBreadcrumb,
+    ControlSidebar
   },
   setup() {},
 };
