@@ -1,7 +1,10 @@
+import BlankLayout from '../layouts/BlankLayout.vue';
+import AdminLayout from '../layouts/AdminLayout.vue';
+
 const admin = [
   {
     path: "",
-    component: () => import("../layouts/BlankLayout.vue"),
+    component: () => BlankLayout,
     children: [
       {
         path: "/login",
@@ -13,7 +16,7 @@ const admin = [
   {
     path: "/admin",
     name: "admin",
-    component: () => import("../layouts/AdminLayout.vue"),
+    component: AdminLayout,
     children: [
       {
         path: "users",
