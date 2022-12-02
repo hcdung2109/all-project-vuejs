@@ -3,9 +3,9 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 v-if="title">
+          <h1>
               <i :class="icon" v-if="icon"></i>
-              {{ title}}
+              {{ title}} {{ app_title }}
           </h1>
         </div>
       </div>
@@ -26,10 +26,14 @@ export default {
       default: null
     }
   },
+  data() {
+    return {
+      app_title: null
+    }
+  },
   beforeMount() {
-    //this.title = this.$store.state.app.name;
-    //const title = this.title ? `${this.title} | ${title}` : title;
-    //$('title').html(title);
+    let title = this.$store.state.app.name;
+    this.app_title = this.title ? '' : title;
   }
 }
 </script>

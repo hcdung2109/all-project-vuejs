@@ -4,12 +4,12 @@
       <!-- /.login-logo -->
       <div class="card card-outline card-primary">
         <div class="card-header text-center">
-          <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
+          <a href="../../index2.html" class="h1">{{ $store.state.app.name }}</a>
         </div>
         <div class="card-body">
-          <p class="login-box-msg">Sign in to start your session</p>
+          <p class="login-box-msg message-login"></p>
 
-          <form action="../../index3.html" method="post">
+          <form action="/login" method="post" @submit.prevent="postLogin()">
             <div class="input-group mb-3">
               <input type="email" class="form-control" placeholder="Email" />
               <div class="input-group-append">
@@ -76,7 +76,13 @@
 <script>
 export default {
   name: "AdminLogin",
-  setup() {},
+  beforeMount() {
+  },
+  methods: {
+    postLogin() {
+      window.location.href = "/";
+    }
+  }
 };
 </script>
 
