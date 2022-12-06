@@ -85,13 +85,29 @@
 <script>
 import ContentHeaderVue from "../../../components/ContentHeader.vue";
 import ContentVue from "../../../components/Content.vue";
+import axios from "axios";
 
 export default {
   components: {
     ContentHeaderVue,
     ContentVue
   },
-  setup() {},
+  setup() {
+    const getUsers = () => {
+      axios.get('/api/user.json')
+          .then(function (response) {
+            // xử trí khi thành công
+            console.log(response);
+          })
+          .catch(function (error) {
+            // xử trí khi bị lỗi
+            console.log(error);
+          })
+          .then(function () {
+            // luôn luôn được thực thi
+          });
+    }
+  },
 };
 </script>
 

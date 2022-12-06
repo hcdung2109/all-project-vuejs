@@ -3,6 +3,8 @@ import { createPinia } from "pinia";
 //import './style.css'
 import router from "./router/index.js";
 //import store from "./store/index.js";
+import axios from "axios";
+//window.axios = axios;
 import App from "./App.vue";
 
 // Import CSS
