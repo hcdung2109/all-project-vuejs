@@ -102,11 +102,11 @@ export default {
           .catch(function (error) {
             // xử trí khi bị lỗi
             console.log(error);
-          })
-          .then(function () {
-            // luôn luôn được thực thi
           });
-    }
+    };
+
+    getUsers();
+
   },
 };
 </script>
