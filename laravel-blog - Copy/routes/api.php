@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/users', 'FrontEndController@about')->name('website.about');
+Route::get('/users', 'Api\UserController@index')->name('user.index');
