@@ -3,44 +3,40 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Role;
 use App\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class RoleController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->paginate(20);
+        $roles = Role::get();
 
-        return response()->json($users);
+        return response()->json($roles);
     }
 
     public function create(){
         return view('admin.user.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
+    public function store(Request $request){
+        $this->validate($request, [
             'name' => 'required|string|max:255',
-            //'email' => 'required|email|unique:users,email',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8'
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => $request->role_id ?? 0,
-            'status' => $request->status,
+            'description' => $request->description,
         ]);
 
-        return response()->json([
-            'status' => 1,
-            'msg' => "Tạo thành công"
-        ]);
+        Session::flash('success', 'User created successfully');
+        return redirect()->back();
     }
 
     public function edit(User $user){

@@ -18,4 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/users', 'Api\UserController@index')->name('user.index');
+// Admin Panel Routes
+Route::name('api.')
+    //->middleware('auth')
+    ->group(function () {
+        Route::resource('user', 'Api\UserController');
+        Route::resource('role', 'Api\RoleController');
+        //Route::resource('category', 'Api\CategoryController');
+        //Route::resource('tag', 'Api\TagController');
+        //Route::resource('post', 'Api\PostController');
+        //Route::resource('setting', 'Api\SettingController');
+    });

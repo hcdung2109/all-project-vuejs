@@ -98,7 +98,7 @@ export default {
     const users = ref([]);
     const getUsers = () => {
       axios
-        .get(API_URL + "api/users")
+        .get(API_URL + "api/user")
         .then(function (response) {
           // xử trí khi thành công
           console.log(response.data.data);
