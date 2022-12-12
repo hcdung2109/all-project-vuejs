@@ -37,9 +37,9 @@ export default {
     let storeApp = useStoreApp();
     const { app } = storeApp;
 
-    console.log(storeApp.app.name);
+    //console.log(storeApp.app.name);
     //console.log(app);
-    console.log(app.name);
+    //console.log(app.name);
     //let title = this.$store.state.app.name;
     //this.app_title = this.title ? '' : title;
   },
