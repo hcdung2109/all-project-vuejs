@@ -48,10 +48,19 @@
                   </td>
                   <td>{{ user.name }}</td>
                   <td>{{ user.email }}</td>
+                  <td>{{ user.status }}</td>
                   <td>
-                    <button type="button" class="btn btn-outline-primary mr-2">
-                      <i class="fas fa-pencil-alt"></i>
-                    </button>
+                    <router-link
+                      class="btn btn-outline-primary mr-2"
+                      :to="{
+                        name: 'admin-users-edit',
+                        params: {
+                          id: user.id,
+                        },
+                      }"
+                      ><i class="fas fa-pencil-alt"></i
+                    ></router-link>
+
                     <button type="button" class="btn btn-outline-danger">
                       <i class="fas fa-trash"></i>
                     </button>

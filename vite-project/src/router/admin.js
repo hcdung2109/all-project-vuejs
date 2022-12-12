@@ -3,6 +3,7 @@ import AdminLayout from "../layouts/AdminLayout.vue";
 import PageLogin from "../pages/admin/login.vue";
 import PageUser from "../pages/admin/users/index.vue";
 import PageUserCreate from "../pages/admin/users/create.vue";
+import PageUserEdit from "../pages/admin/users/edit.vue";
 import PageContact from "../pages/admin/contacts/index.vue";
 import PageRoles from "../pages/admin/roles/index.vue";
 import PageSetting from "../pages/admin/setting/index.vue";
@@ -34,6 +35,11 @@ const admin = [
         path: "users/create",
         name: "admin-users-create",
         component: () => PageUserCreate,
+      },
+      {
+        path: "users/:id/edit",
+        name: "admin-users-edit",
+        component: () => PageUserEdit,
       },
       {
         path: "contacts",
