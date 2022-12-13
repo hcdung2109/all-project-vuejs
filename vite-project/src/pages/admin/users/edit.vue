@@ -45,6 +45,7 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">Email</label>
                 <input
+                  autocomplete="false"
                   type="email"
                   class="form-control"
                   :class="{ 'is-invalid': errors.email }"
@@ -72,8 +73,9 @@
 
               <div v-if="change_password == true">
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Mật khẩu</label>
+                  <label for="exampleInputPassword1" class="text-danger">Mật khẩu</label>
                   <input
+                    autocomplete="false"
                     type="password"
                     class="form-control"
                     :class="{ 'is-invalid': errors.password }"
@@ -87,12 +89,13 @@
                 </p>
 
                 <div class="form-group" v-if="change_password == true">
-                  <label for="exampleInputPassword1">Nhập Lại Mật khẩu</label>
+                  <label for="exampleInputPassword1" class="text-danger">Nhập Lại Mật khẩu</label>
                   <input
+                    autocomplete="false"
                     type="password"
                     class="form-control"
                     id="exampleInputPassword1"
-                    placeholder="Password"
+                    placeholder="Confirm Password"
                     v-model="password_confirmation"
                   />
                 </div>
@@ -118,9 +121,9 @@
               <!-- select -->
               <div class="form-group">
                 <label>Vai trò</label>
-                <select class="form-control" name="role_id" id="role_id">
-                  <option value="">-- Lựa chọn --</option>
-                  <option v-for="(role, index) in roles" value="">
+                <select class="form-control" name="role_id" id="role_id" v-model="role_id">
+                  <option value="0">-- Lựa chọn --</option>
+                  <option v-for="(role, index) in roles" v-bind:value="role.id">
                     {{ role.name }}
                   </option>
                 </select>
@@ -130,6 +133,9 @@
                   type="checkbox"
                   class="form-check-input"
                   id="exampleCheck1"
+                  v-bind:checked="checked_status"
+                  true-value="active"
+                  false-value="inactive"
                 />
                 <label class="form-check-label" for="exampleCheck1"
                   >Kích hoạt</label
@@ -152,7 +158,7 @@
 
 <script>
 import { computed, reactive, ref, toRefs } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useToast } from "vue-toastification";
 //import "../../../../public/adminlte/plugins/bs-custom-file-input/bs-custom-file-input.js";
 //import "admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js";
@@ -179,18 +185,22 @@ export default {
   setup() {
     const roles = ref([]);
     const errors = ref({});
-    const users = reactive({
+    const user = reactive({
       name: "",
       email: "",
       password: "",
       password_confirmation: "",
       role_id: "",
-      status: "inactive",
+      checked_status: false,
       change_password: false,
     });
 
-    const route = useRouter();
+    const router = useRouter();
+    const route = useRoute();
     const toast = useToast();
+    const user_id = route.params.id;
+
+    console.log(route.params);
 
     const getRoles = () => {
       axios
@@ -206,13 +216,41 @@ export default {
         });
     };
 
+    const getUserEdit = () => {
+      axios
+        .get(API_URL + "api/user/"+ user_id +"/edit")
+        .then(function (response) {
+          // xử trí khi thành công
+          console.log(response.data.user);
+          if (response) {
+            let data = response.data.user;
+            user.name = data.name;
+            user.email = data.email;
+            user.role_id = data.role_id;
+            user.checked_status = data.status == 'active' ? true : false;
+          }
+        })
+        .catch(function (error) {
+          // xử trí khi bị lỗi
+          console.log(error);
+        });
+    };
+
     const options = {
-      headers: { "Access-Control-Allow-Origin": "*" },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS'
+        },
+        crossDomain: true,
+        mode: 'no-cors',
+        withCredentials: true,
+        credentials: 'same-origin',
     };
 
     const submitFormUpdate = () => {
       axios
-        .post(API_URL + "api/user/", users, options)
+        .put(API_URL + "api/user/" + user_id, user, options)
         .then((response) => {
           console.log(response);
 
@@ -222,7 +260,7 @@ export default {
             });
 
             //router.push('/admin/users');
-            route.push({ name: "admin-users" });
+            router.push({ name: "admin-users" });
           }
         })
         .catch(function (error) {
@@ -236,8 +274,9 @@ export default {
     };
 
     getRoles();
+    getUserEdit();
 
-    return { roles, submitFormUpdate, ...toRefs(users), errors };
+    return { roles, submitFormUpdate, ...toRefs(user), errors };
   },
 };
 </script>

@@ -16,16 +16,16 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function create(){
-        return view('admin.user.create');
+    public function create()
+    {
+        
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            //'email' => 'required|email|unique:users,email',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:8'
         ]);
 
@@ -43,25 +43,47 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit(User $user){
+    public function edit(User $user)
+    {
+        return response()->json([
+            'user' => $user
+        ]);
+
         return view('admin.user.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user){
-        $this->validate($request, [
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
             'name' => 'required|string|max:255',
             'email' => "required|email|unique:users,email, $user->id",
             'password' => 'sometimes|nullable|min:8',
         ]);
 
+        if ($request->change_password == true) {
+            $request->validate([
+                'password' => 'required|confirmed|min:8'
+            ]);
+        }
+
+        dd($request->all);
+
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->description = $request->description;
+
+        if (!empty($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
+        
+        $user->role_id = $request->role_id;
+        // $user->status_id = $request->checked_status ==;
         $user->save();
 
-        Session::flash('success', 'User updated successfully');
-        return redirect()->back();
+       
+        return response()->json([
+            'status' => 1,
+            'msg' => "Cập nhật thành công"
+        ]);
     }
 
     public function destroy(User $user){

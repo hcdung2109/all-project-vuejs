@@ -22,11 +22,12 @@
           </div>
           <!-- /.card-header -->
           <!-- form start -->
-          <form action="#" method="POST" enctype="multipart/form-data" @submit.prevent="submitForm()">
+          <form autocomplete="off" action="#" method="POST" enctype="multipart/form-data" @submit.prevent="submitForm()">
             <div class="card-body">
               <div class="form-group">
                 <label for="exampleInputPassword1">Tên</label>
                 <input
+                  autocomplete="new-name"
                   type="text"
                   class="form-control"
                   :class="{ 'is-invalid': errors.name }"
@@ -40,6 +41,7 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">Email</label>
                 <input
+                  autocomplete="new-email"
                   type="email"
                   class="form-control"
                   :class="{ 'is-invalid': errors.email }"
@@ -51,8 +53,9 @@
               <p v-if="errors.email" class="text-danger">{{ errors.email[0] }}</p>
 
               <div class="form-group">
-                <label for="exampleInputPassword1">Mật khẩu</label>
+                <label for="exampleInputPassword1" class="text-danger">Mật khẩu</label>
                 <input
+                  autocomplete="off"
                   type="password"
                   class="form-control"
                   :class="{ 'is-invalid': errors.password }"
@@ -64,7 +67,7 @@
               <p v-if="errors.password" class="text-danger">{{ errors.password[0] }}</p>
 
               <div class="form-group">
-                <label for="exampleInputPassword1">Nhập Lại Mật khẩu</label>
+                <label for="exampleInputPassword1" class="text-danger">Nhập Lại Mật khẩu</label>
                 <input
                   type="password"
                   class="form-control"
@@ -104,7 +107,8 @@
                   type="checkbox"
                   class="form-check-input"
                   id="exampleCheck1"
-                  v-model="status"
+                  true-value="active"
+                  false-value="inactive"
                 />
                 <label class="form-check-label" for="exampleCheck1"
                   >Kích hoạt</label
@@ -163,7 +167,7 @@ export default {
       status: "inactive",
     });
 
-    const route = useRouter();
+    const router = useRouter();
     const toast = useToast();
 
     const getRoles = () => {
@@ -195,7 +199,7 @@ export default {
                 });
 
                 //router.push('/admin/users');
-                route.push({name: 'admin-users'});
+                router.push({name: 'admin-users'});
               }
 
             })
