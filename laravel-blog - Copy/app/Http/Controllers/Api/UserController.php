@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function create()
     {
-        
+
     }
 
     public function store(Request $request)
@@ -66,20 +66,17 @@ class UserController extends Controller
             ]);
         }
 
-        dd($request->all);
-
         $user->name = $request->name;
         $user->email = $request->email;
 
-        if (!empty($request->password)) {
+        if ($request->change_password == true && !empty($request->password)) {
             $user->password = bcrypt($request->password);
         }
-        
+
         $user->role_id = $request->role_id;
-        // $user->status_id = $request->checked_status ==;
+        $user->status = $request->status;
         $user->save();
 
-       
         return response()->json([
             'status' => 1,
             'msg' => "Cập nhật thành công"

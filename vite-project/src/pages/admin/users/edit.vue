@@ -73,7 +73,9 @@
 
               <div v-if="change_password == true">
                 <div class="form-group">
-                  <label for="exampleInputPassword1" class="text-danger">Mật khẩu</label>
+                  <label for="exampleInputPassword1" class="text-danger"
+                    >Mật khẩu</label
+                  >
                   <input
                     autocomplete="false"
                     type="password"
@@ -89,7 +91,9 @@
                 </p>
 
                 <div class="form-group" v-if="change_password == true">
-                  <label for="exampleInputPassword1" class="text-danger">Nhập Lại Mật khẩu</label>
+                  <label for="exampleInputPassword1" class="text-danger"
+                    >Nhập Lại Mật khẩu</label
+                  >
                   <input
                     autocomplete="false"
                     type="password"
@@ -121,7 +125,12 @@
               <!-- select -->
               <div class="form-group">
                 <label>Vai trò</label>
-                <select class="form-control" name="role_id" id="role_id" v-model="role_id">
+                <select
+                  class="form-control"
+                  name="role_id"
+                  id="role_id"
+                  v-model="role_id"
+                >
                   <option value="0">-- Lựa chọn --</option>
                   <option v-for="(role, index) in roles" v-bind:value="role.id">
                     {{ role.name }}
@@ -133,6 +142,7 @@
                   type="checkbox"
                   class="form-check-input"
                   id="exampleCheck1"
+                  v-model="status"
                   v-bind:checked="checked_status"
                   true-value="active"
                   false-value="inactive"
@@ -191,6 +201,7 @@ export default {
       password: "",
       password_confirmation: "",
       role_id: "",
+      status: "",
       checked_status: false,
       change_password: false,
     });
@@ -218,7 +229,7 @@ export default {
 
     const getUserEdit = () => {
       axios
-        .get(API_URL + "api/user/"+ user_id +"/edit")
+        .get(API_URL + "api/user/" + user_id + "/edit")
         .then(function (response) {
           // xử trí khi thành công
           console.log(response.data.user);
@@ -226,8 +237,9 @@ export default {
             let data = response.data.user;
             user.name = data.name;
             user.email = data.email;
+            user.status = data.status;
             user.role_id = data.role_id;
-            user.checked_status = data.status == 'active' ? true : false;
+            user.checked_status = data.status == "active" ? true : false;
           }
         })
         .catch(function (error) {
@@ -236,21 +248,21 @@ export default {
         });
     };
 
-    const options = {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS'
-        },
-        crossDomain: true,
-        mode: 'no-cors',
-        withCredentials: true,
-        credentials: 'same-origin',
-    };
+    // const options = {
+    //   headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS'
+    //     },
+    //     crossDomain: true,
+    //     mode: 'no-cors',
+    //     withCredentials: true,
+    //     credentials: 'same-origin',
+    // };
 
     const submitFormUpdate = () => {
       axios
-        .put(API_URL + "api/user/" + user_id, user, options)
+        .put(API_URL + "api/user/" + user_id, user)
         .then((response) => {
           console.log(response);
 
@@ -259,7 +271,6 @@ export default {
               timeout: 2000,
             });
 
-            //router.push('/admin/users');
             router.push({ name: "admin-users" });
           }
         })
