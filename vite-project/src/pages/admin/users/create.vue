@@ -41,7 +41,7 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">Email</label>
                 <input
-                  autocomplete="new-email"
+                  autocomplete="off"
                   type="email"
                   class="form-control"
                   :class="{ 'is-invalid': errors.email }"
@@ -53,7 +53,7 @@
               <p v-if="errors.email" class="text-danger">{{ errors.email[0] }}</p>
 
               <div class="form-group">
-                <label for="exampleInputPassword1" class="text-danger">Mật khẩu</label>
+                <label for="exampleInputPassword1">Mật khẩu</label>
                 <input
                   autocomplete="off"
                   type="password"
@@ -67,8 +67,9 @@
               <p v-if="errors.password" class="text-danger">{{ errors.password[0] }}</p>
 
               <div class="form-group">
-                <label for="exampleInputPassword1" class="text-danger">Nhập Lại Mật khẩu</label>
+                <label for="exampleInputPassword1">Nhập Lại Mật khẩu</label>
                 <input
+                  autocomplete="off"
                   type="password"
                   class="form-control"
                   id="exampleInputPassword1"
@@ -134,7 +135,7 @@ import { computed, reactive, ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 //import "../../../../public/adminlte/plugins/bs-custom-file-input/bs-custom-file-input.js";
-//import "admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js";
+import "admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js";
 import ContentHeaderVue from "../../../components/ContentHeader.vue";
 import ContentVue from "../../../components/Content.vue";
 import axios from "axios";
