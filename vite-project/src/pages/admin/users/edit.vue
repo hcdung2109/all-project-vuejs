@@ -77,13 +77,12 @@
                     >Mật khẩu</label
                   >
                   <input
-                    autocomplete="false"
+                    autocomplete="new_password"
                     type="password"
                     class="form-control"
                     :class="{ 'is-invalid': errors.password }"
                     id="exampleInputPassword1"
                     placeholder="Password"
-                    v-model="password"
                   />
                 </div>
                 <p v-if="errors.password" class="text-danger">

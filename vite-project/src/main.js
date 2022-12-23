@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import Toast from "vue-toastification";
+import DisableAutocomplete from 'vue-disable-autocomplete';
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
 //import './style.css'
@@ -22,6 +23,7 @@ import "admin-lte/plugins/toastr/toastr.min.js";
 import "admin-lte/dist/js/adminlte.min.js";
 
 const app = createApp(App);
+app.use(DisableAutocomplete);
 app.use(createPinia());
 app.use(router);
 app.use(Toast);
